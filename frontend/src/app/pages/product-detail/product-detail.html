@@ -1,6 +1,7 @@
 @if (product(); as item) {
   <h1>{{ item.name }}</h1>
   <p>Preț: {{ item.price }} €</p>
+  <p>{{ item.description }}</p>
 } @else {
   <h1>Produsul nu a fost găsit</h1>
 }

@@ -7,3 +7,6 @@
     <a [routerLink]="['/products', product.id]">Vezi detalii</a>
   </article>
 }
+<button (click)="selectCategory('')">Toate</button>
+<button (click)="selectCategory('Miere')">Miere</button>
+<button (click)="selectCategory('Echipamente')">Echipamente</button>
