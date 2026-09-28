@@ -1,1 +1,9 @@
-<p>products works!</p>
+<h1>Produse</h1>
+
+@for (product of products; track product.id) {
+  <article>
+    <h2>{{ product.name }}</h2>
+    <p>{{ product.price }} €</p>
+    <a [routerLink]="['/products', product.id]">Vezi detalii</a>
+  </article>
+}

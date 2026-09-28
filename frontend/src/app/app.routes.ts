@@ -4,6 +4,7 @@ import { Products } from './pages/products/products';
 import { About } from './pages/about/about';
 import { Articles } from './pages/articles/articles';
 import { Contact } from './pages/contact/contact';
+import { ProductDetail } from './pages/product-detail/product-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -11,4 +12,5 @@ export const routes: Routes = [
   { path: 'about', component: About },
   { path: 'articles', component: Articles },
   { path: 'contact', component: Contact },
+  { path: 'products/:id', component: ProductDetail },
 ];
