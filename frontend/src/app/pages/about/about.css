@@ -1,0 +1,207 @@
+.about-hero {
+  display: flex;
+  align-items: center;
+  min-height: 440px;
+  background-image:
+    linear-gradient(
+      90deg,
+      var(--color-cream) 0%,
+      rgb(255 249 237 / 96%) 24%,
+      rgb(255 249 237 / 70%) 47%,
+      rgb(255 249 237 / 0%) 76%
+    ),
+    url('/images/hero-stupina.png');
+  background-position: center;
+  background-size: cover;
+}
+
+.about-hero-content {
+  padding-block: 80px;
+}
+
+.about-hero h1 {
+  margin: 0 0 18px;
+  color: var(--color-black);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  line-height: 1.1;
+}
+
+.about-hero p {
+  max-width: 460px;
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.about-story {
+  background: var(--color-cream);
+}
+
+.about-text {
+  max-width: 650px;
+}
+
+.about-text p {
+  margin: 0 0 18px;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
+}
+
+.honey-process {
+  background: #fffdf8;
+}
+
+.process-intro {
+  margin: 0 0 42px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.process-step {
+  position: relative;
+  padding-top: 20px;
+  border-top: 2px solid var(--color-honey);
+}
+
+.step-number {
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-honey);
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.process-step h3 {
+  margin: 20px 0 10px;
+  color: var(--color-black);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.3rem;
+}
+
+.process-step p {
+  margin: 0;
+}
+
+.about-shop {
+  display: flex;
+  align-items: center;
+  min-height: 440px;
+  background-image:
+    linear-gradient(
+      90deg,
+      var(--color-cream) 0%,
+      rgb(255 249 237 / 97%) 24%,
+      rgb(255 249 237 / 72%) 48%,
+      rgb(255 249 237 / 0%) 78%
+    ),
+    url('/images/magazin-ilustrativ.png');
+  background-position: center;
+  background-size: cover;
+}
+
+.about-shop-content {
+  padding-block: 80px;
+}
+
+.about-documents {
+  background: var(--color-cream);
+}
+
+.document-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.document-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 68px;
+  padding: 14px 22px;
+  border: 1px solid var(--color-honey);
+  border-radius: var(--radius);
+  background: var(--color-white);
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.document-button span {
+  color: #a76200;
+  font-size: 1.8rem;
+}
+
+.document-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.document-note {
+  margin: 16px 0 0;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 750px) {
+  .about-hero,
+  .about-shop {
+    min-height: 570px;
+    align-items: flex-start;
+    background-image:
+      linear-gradient(
+        180deg,
+        var(--color-cream) 0%,
+        rgb(255 249 237 / 97%) 35%,
+        rgb(255 249 237 / 70%) 60%,
+        rgb(255 249 237 / 0%) 90%
+      ),
+      url('/images/hero-stupina.png');
+    background-position: center, 65% center;
+  }
+
+  .about-shop {
+    background-image:
+      linear-gradient(
+        180deg,
+        var(--color-cream) 0%,
+        rgb(255 249 237 / 97%) 35%,
+        rgb(255 249 237 / 70%) 60%,
+        rgb(255 249 237 / 0%) 90%
+      ),
+      url('/images/magazin-ilustrativ.png');
+  }
+
+  .about-hero-content,
+  .about-shop-content {
+    padding-block: 55px;
+  }
+}
+
+@media (max-width: 550px) {
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .document-actions {
+    flex-direction: column;
+  }
+
+  .document-button {
+    width: 100%;
+  }
+}

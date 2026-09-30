@@ -5,6 +5,7 @@ import { About } from './pages/about/about';
 import { Articles } from './pages/articles/articles';
 import { Contact } from './pages/contact/contact';
 import { ProductDetail } from './pages/product-detail/product-detail';
+import { ArticleDetail } from './pages/article-detail/article-detail';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -13,4 +14,5 @@ export const routes: Routes = [
   { path: 'articles', component: Articles },
   { path: 'contact', component: Contact },
   { path: 'products/:id', component: ProductDetail },
+  { path: 'articles/:slug', component: ArticleDetail },
 ];

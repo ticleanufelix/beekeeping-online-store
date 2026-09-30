@@ -1,1 +1,125 @@
-<p>articles works!</p>
+<section class="articles-hero">
+  <div class="container">
+    <div class="articles-hero-text">
+      <p class="articles-eyebrow">MANOLCOM · DIN LUMEA ALBINELOR</p>
+
+      <h1>Articole</h1>
+
+      <p class="articles-hero-description">
+        Descoperă povești, informații și sfaturi despre miere, albine și viața din stupină.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section articles-section">
+  <div class="container">
+    <div class="articles-heading">
+      <h2 class="section-heading">Din lumea apiculturii</h2>
+      <p>Un loc pentru curiozități, idei și lucruri utile despre produsele apicole.</p>
+    </div>
+
+    <div class="articles-toolbar">
+      <div class="article-filters" aria-label="Categorii de articole">
+        <button
+          type="button"
+          class="filter-button"
+          [class.is-active]="selectedCategory === ''"
+          [attr.aria-pressed]="selectedCategory === ''"
+          (click)="selectCategory('')"
+        >
+          Toate
+        </button>
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.is-active]="selectedCategory === 'Miere'"
+          [attr.aria-pressed]="selectedCategory === 'Miere'"
+          (click)="selectCategory('Miere')"
+        >
+          Miere
+        </button>
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.is-active]="selectedCategory === 'Apicultură'"
+          [attr.aria-pressed]="selectedCategory === 'Apicultură'"
+          (click)="selectCategory('Apicultură')"
+        >
+          Apicultură
+        </button>
+
+        <button
+          type="button"
+          class="filter-button"
+          [class.is-active]="selectedCategory === 'Sfaturi'"
+          [attr.aria-pressed]="selectedCategory === 'Sfaturi'"
+          (click)="selectCategory('Sfaturi')"
+        >
+          Sfaturi
+        </button>
+      </div>
+
+      <div class="article-search">
+        <label class="visually-hidden" for="article-search"> Caută articole după titlu </label>
+
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          aria-hidden="true"
+        >
+          <circle cx="10.5" cy="10.5" r="6.5" />
+          <path d="m16 16 4 4" stroke-linecap="round" />
+        </svg>
+
+        <input
+          id="article-search"
+          type="search"
+          placeholder="Caută un articol..."
+          [value]="searchTerm"
+          (input)="onSearch($event)"
+        />
+      </div>
+    </div>
+
+    <div class="article-grid">
+      @for (article of articles; track article.id) {
+        <article class="article-card">
+          <a
+            class="article-image"
+            [routerLink]="['/articles', article.slug]"
+            [attr.aria-label]="'Citește: ' + article.title"
+          >
+            <img [src]="article.image" [alt]="article.title" loading="lazy" />
+          </a>
+
+          <div class="article-info">
+            <p class="article-category">{{ article.category }}</p>
+
+            <h3 class="article-title">
+              <a [routerLink]="['/articles', article.slug]">
+                {{ article.title }}
+              </a>
+            </h3>
+
+            <p class="article-summary">{{ article.summary }}</p>
+
+            <a class="article-read-more" [routerLink]="['/articles', article.slug]">
+              Citește articolul
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      } @empty {
+        <div class="articles-empty" role="status">
+          <h3>Nu am găsit articole</h3>
+          <p>Încearcă alt cuvânt sau selectează o altă categorie.</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

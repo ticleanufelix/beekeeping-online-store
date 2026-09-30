@@ -1,9 +1,85 @@
-<div class="site-name">{{ title() }}</div>
-<nav>
-  <a routerLink="/">Acasă</a>
-  <a routerLink="/products">Produse</a>
-  <a routerLink="/about">Despre noi</a>
-  <a routerLink="/articles">Articole</a>
-  <a routerLink="/contact">Contact</a>
-</nav>
-<router-outlet />
+<header class="site-header" (keydown.escape)="closeMenu()">
+  <div class="container header-content">
+    <a class="brand" routerLink="/" aria-label="Manolcom - pagina principală" (click)="closeMenu()">
+      <img class="brand-logo" src="/images/manolcom-logo.png" alt="Manolcom SRL" />
+    </a>
+
+    <nav
+      id="main-navigation"
+      class="main-nav"
+      [class.is-open]="menuOpen()"
+      aria-label="Navigare principală"
+    >
+      <a routerLink="/" (click)="closeMenu()">Acasă</a>
+      <a routerLink="/products" (click)="closeMenu()">Produse</a>
+      <a routerLink="/about" (click)="closeMenu()">Despre noi</a>
+      <a routerLink="/articles" (click)="closeMenu()">Articole</a>
+      <a routerLink="/contact" (click)="closeMenu()">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button
+        class="cart-button"
+        type="button"
+        aria-label="Coșul de cumpărături, disponibil în curând"
+        title="Coșul va fi disponibil în curând"
+        disabled
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+        </svg>
+      </button>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-controls="main-navigation"
+        [attr.aria-expanded]="menuOpen()"
+        [attr.aria-label]="menuOpen() ? 'Închide meniul' : 'Deschide meniul'"
+        (click)="toggleMenu()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-content">
+    <div>
+      <a class="brand footer-brand" routerLink="/" aria-label="Manolcom - pagina principală">
+        <img class="footer-logo" src="/images/manolcom-logo.png" alt="Manolcom SRL" />
+      </a>
+      <p>Miere și produse pentru apicultură.</p>
+    </div>
+
+    <div>
+      <h2>Date de contact</h2>
+      <p><strong>Adresă:</strong> Adresa firmei</p>
+      <p><strong>Localitate:</strong> Localitatea</p>
+      <p><strong>Telefon:</strong> Numărul de telefon</p>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <small>© MANOLCOM. Toate drepturile rezervate.</small>
+  </div>
+</footer>

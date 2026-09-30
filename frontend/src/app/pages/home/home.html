@@ -1,1 +1,174 @@
-<p>Bine ai venit în magazinul nostru de produse apicole!</p>
+<section class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <p class="hero-eyebrow">MANOLCOM · PRODUSE APICOLE</p>
+
+      <h1>Din grijă pentru albine, pentru tine</h1>
+
+      <p class="hero-description">
+        Descoperă mierea noastră și produsele pentru apicultură, alese cu grijă pentru tine și
+        stupina ta.
+      </p>
+
+      <a class="btn btn-primary" routerLink="/products">
+        Descoperă produsele <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section featured-products">
+  <div class="container">
+    <div class="featured-header">
+      <div>
+        <h2 class="section-heading">Produse recomandate</h2>
+        <p class="section-intro">Descoperă o selecție de produse pentru tine și stupina ta.</p>
+      </div>
+
+      <a class="btn btn-outline" routerLink="/products">
+        Toate produsele <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="product-grid">
+      @for (product of featuredProducts; track product.id) {
+        <article class="product-card">
+          <div class="product-placeholder" aria-hidden="true">
+            @if (product.category === 'miere') {
+              🍯
+            } @else {
+              🐝
+            }
+          </div>
+
+          <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p class="product-price">{{ product.price | number: '1.2-2' }} lei</p>
+
+            <a class="btn btn-primary product-button" [routerLink]="['/products', product.id]">
+              Vezi produsul
+            </a>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section story">
+  <div class="container story-content">
+    <div class="story-text">
+      <h2 class="section-heading">Povestea noastră</h2>
+
+      <p>
+        La MANOLCOM, mierea și produsele apicole fac parte din munca noastră de zi cu zi. Vrem să
+        oferim produse utile atât celor care iubesc mierea, cât și apicultorilor.
+      </p>
+
+      <p>Descoperă cine suntem și cum a început povestea noastră.</p>
+
+      <a class="btn btn-primary" routerLink="/about">
+        Despre noi <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section categories">
+  <div class="container">
+    <div class="section-title">
+      <h2 class="section-heading">Explorează categoriile</h2>
+      <p class="section-intro">De la miere la echipamente pentru îngrijirea stupinei.</p>
+    </div>
+
+    <div class="category-grid">
+      <a class="category-card" routerLink="/products">
+        <img src="/images/category-honey.png" alt="Miere într-un borcan" />
+        <h3>Miere <span aria-hidden="true">→</span></h3>
+      </a>
+
+      <a class="category-card" routerLink="/products">
+        <img src="/images/category-stupi.png" alt="Stupi într-o stupină" />
+        <h3>Stupi <span aria-hidden="true">→</span></h3>
+      </a>
+
+      <a class="category-card" routerLink="/products">
+        <img src="/images/category-bee.png" alt="Albină pe o floare" />
+        <h3>Îngrijirea albinelor <span aria-hidden="true">→</span></h3>
+      </a>
+
+      <a class="category-card" routerLink="/products">
+        <img src="/images/category-ustensile.png" alt="Ustensile folosite în apicultură" />
+        <h3>Ustensile apicole <span aria-hidden="true">→</span></h3>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section benefits">
+  <div class="container">
+    <div class="benefits-heading">
+      <h2 class="section-heading">De ce să alegi produsele noastre?</h2>
+    </div>
+
+    <div class="benefit-grid">
+      <article class="benefit-item">
+        <span class="benefit-number">01</span>
+        <h3>Livrare în România</h3>
+        <p>Comanzi online și primești produsele prin curier.</p>
+      </article>
+
+      <article class="benefit-item">
+        <span class="benefit-number">02</span>
+        <h3>Produse atent alese</h3>
+        <p>Miere și articole utile pentru îngrijirea stupinei.</p>
+      </article>
+
+      <article class="benefit-item">
+        <span class="benefit-number">03</span>
+        <h3>Pasiune pentru apicultură</h3>
+        <p>Oferim produse atât iubitorilor de miere, cât și apicultorilor.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section questions">
+  <div class="container questions-content">
+    <div>
+      <h2 class="section-heading">Ai o întrebare?</h2>
+      <p>Scrie-ne despre produsele care te interesează sau despre comanda ta.</p>
+      <p>
+        Ne poți găsi și pe pagina
+        <a routerLink="/contact">Contact</a>.
+      </p>
+    </div>
+
+    <form class="questions-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="question-name">Nume</label>
+          <input id="question-name" name="name" type="text" required />
+        </div>
+
+        <div class="form-field">
+          <label for="question-email">E-mail</label>
+          <input id="question-email" name="email" type="email" required />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="question-phone">Telefon (opțional)</label>
+        <input id="question-phone" name="phone" type="tel" />
+      </div>
+
+      <div class="form-field">
+        <label for="question-message">Mesaj</label>
+        <textarea id="question-message" name="message" rows="5" required></textarea>
+      </div>
+
+      <button class="btn btn-primary" type="button" disabled>Trimite mesaj</button>
+      <p class="form-note">Trimiterea mesajelor va fi disponibilă în curând.</p>
+    </form>
+  </div>
+</section>

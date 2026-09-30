@@ -27,6 +27,13 @@ export class ProductService {
       description: 'Miere cu gust delicat, obținută din flori de salcâm.',
       category: 'Echipamente',
     },
+    {
+      id: 4,
+      name: 'Afumător apicol',
+      price: 24.9,
+      description: 'Miere cu gust delicat, obținută din flori de salcâm.',
+      category: 'Echipamente',
+    },
   ];
 
   getAll(): Product[] {

@@ -11,14 +11,29 @@ import { RouterLink } from '@angular/router';
 })
 export class Products {
   selectedCategory = '';
+  searchTerm = '';
+
   private readonly productService = inject(ProductService);
 
   products: Product[] = this.productService.getAll();
 
   selectCategory(category: string): void {
     this.selectedCategory = category;
-    this.products = category
-      ? this.productService.getByCategory(category)
+    this.applyFilters();
+  }
+
+  onSearch(event: Event): void {
+    this.searchTerm = (event.target as HTMLInputElement).value;
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    const byCategory = this.selectedCategory
+      ? this.productService.getByCategory(this.selectedCategory)
       : this.productService.getAll();
+
+    const search = this.searchTerm.trim().toLowerCase();
+
+    this.products = byCategory.filter((product) => product.name.toLowerCase().includes(search));
   }
 }

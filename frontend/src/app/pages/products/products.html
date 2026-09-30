@@ -10,3 +10,11 @@
 <button (click)="selectCategory('')">Toate</button>
 <button (click)="selectCategory('Miere')">Miere</button>
 <button (click)="selectCategory('Echipamente')">Echipamente</button>
+
+<label for="product-search">Caută produse</label>
+<input
+  id="product-search"
+  type="search"
+  (input)="onSearch($event)"
+  placeholder="De exemplu: salcâm"
+/>

@@ -1,0 +1,392 @@
+:host {
+  display: block;
+}
+
+/* Hero */
+
+.articles-hero {
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+  padding: 80px 0;
+  background-color: var(--color-cream);
+  background-image:
+    linear-gradient(
+      90deg,
+      #fff9ed 0%,
+      rgb(255 249 237 / 97%) 25%,
+      rgb(255 249 237 / 75%) 45%,
+      rgb(255 249 237 / 15%) 70%,
+      transparent 100%
+    ),
+    url('/images/hero-stupina.png');
+  background-position: center, center right;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.articles-hero-text {
+  max-width: 560px;
+}
+
+.articles-eyebrow {
+  margin: 0 0 18px;
+  color: #885810;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+}
+
+.articles-hero h1 {
+  margin: 0 0 22px;
+  color: var(--color-black);
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.articles-hero-description {
+  max-width: 440px;
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* Titlu și filtre */
+
+.articles-section {
+  background: #fffdf8;
+}
+
+.articles-heading {
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.articles-heading .section-heading {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.articles-heading > p {
+  max-width: 600px;
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.8;
+}
+
+.articles-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.article-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-button {
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 1px solid rgb(38 51 43 / 16%);
+  border-radius: 999px;
+  background: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.filter-button:hover {
+  border-color: var(--color-honey);
+  background: var(--color-cream);
+}
+
+.filter-button.is-active {
+  border-color: var(--color-honey);
+  background: var(--color-honey);
+  color: var(--color-black);
+}
+
+/* Căutare */
+
+.article-search {
+  position: relative;
+  flex: 0 1 320px;
+  min-width: 0;
+}
+
+.article-search svg {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 20px;
+  height: 20px;
+  color: #68716a;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.article-search input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px 12px 46px;
+  border: 1px solid rgb(38 51 43 / 18%);
+  border-radius: 999px;
+  background: var(--color-white);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.article-search input::placeholder {
+  color: #68716a;
+}
+
+.article-search input:focus-visible,
+.filter-button:focus-visible,
+.article-card a:focus-visible {
+  outline: 3px solid var(--color-honey);
+  outline-offset: 4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Carduri */
+
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.article-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgb(38 51 43 / 9%);
+  border-radius: 16px;
+  background: var(--color-white);
+  box-shadow: 0 8px 24px rgb(29 33 29 / 4%);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgb(29 33 29 / 9%);
+}
+
+.article-image {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+
+.article-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.article-card:hover .article-image img {
+  transform: scale(1.04);
+}
+
+.article-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 26px;
+}
+
+.article-category {
+  margin: 0 0 14px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--color-cream);
+  color: #885810;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-title {
+  margin: 0 0 14px;
+  color: var(--color-black);
+  font-size: 1.3rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.article-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.article-title a:hover {
+  color: #885810;
+}
+
+.article-summary {
+  margin: 0 0 24px;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+.article-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  color: #885810;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article-read-more span {
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.article-read-more:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.article-read-more:hover span {
+  transform: translateX(4px);
+}
+
+/* Lista fără rezultate */
+
+.articles-empty {
+  grid-column: 1 / -1;
+  padding: 60px 24px;
+  border: 1px dashed rgb(38 51 43 / 20%);
+  border-radius: 16px;
+  background: var(--color-cream);
+  text-align: center;
+}
+
+.articles-empty h3 {
+  margin: 0 0 12px;
+  color: var(--color-black);
+}
+
+.articles-empty p {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+/* Tabletă */
+
+@media (max-width: 1000px) {
+  .article-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .articles-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .article-search {
+    flex: auto;
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+/* Telefon */
+
+@media (max-width: 600px) {
+  .articles-hero {
+    align-items: flex-start;
+    min-height: 440px;
+    padding: 56px 0;
+    background-image:
+      linear-gradient(
+        180deg,
+        #fff9ed 0%,
+        rgb(255 249 237 / 95%) 35%,
+        rgb(255 249 237 / 50%) 65%,
+        rgb(255 249 237 / 10%) 100%
+      ),
+      url('/images/hero-stupina.png');
+    background-position: center, center;
+  }
+
+  .articles-hero-text {
+    max-width: 100%;
+  }
+
+  .articles-hero-description {
+    font-size: 1rem;
+  }
+
+  .articles-eyebrow {
+    font-size: 0.65rem;
+  }
+
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-button {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+  }
+
+  .article-search {
+    max-width: none;
+  }
+
+  .article-info {
+    padding: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-card,
+  .article-image img,
+  .article-read-more span {
+    transition: none;
+  }
+
+  .article-card:hover,
+  .article-card:hover .article-image img,
+  .article-read-more:hover span {
+    transform: none;
+  }
+}

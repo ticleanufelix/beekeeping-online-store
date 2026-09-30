@@ -1,0 +1,6 @@
+@if (article(); as item) {
+  <h1>{{ item.title }}</h1>
+  <p class="article-content">{{ item.content }}</p>
+} @else {
+  <h1>Articolul nu a fost găsit</h1>
+}
