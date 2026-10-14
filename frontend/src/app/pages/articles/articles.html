@@ -86,40 +86,52 @@
       </div>
     </div>
 
-    <div class="article-grid">
-      @for (article of articles; track article.id) {
-        <article class="article-card">
-          <a
-            class="article-image"
-            [routerLink]="['/articles', article.slug]"
-            [attr.aria-label]="'Citește: ' + article.title"
-          >
-            <img [src]="article.image" [alt]="article.title" loading="lazy" />
-          </a>
-
-          <div class="article-info">
-            <p class="article-category">{{ article.category }}</p>
-
-            <h3 class="article-title">
-              <a [routerLink]="['/articles', article.slug]">
-                {{ article.title }}
+    @if (loading()) {
+      <p role="status">Se încarcă articolele...</p>
+    } @else if (error()) {
+      <p role="alert">{{ error() }}</p>
+    } @else {
+      <div class="article-grid">
+        @for (article of articles(); track article.id) {
+          <article class="article-card">
+            @if (article.image_path) {
+              <a
+                class="article-image"
+                [routerLink]="['/articles', article.slug]"
+                [attr.aria-label]="'Citește: ' + article.title"
+              >
+                <img
+                  [src]="article.image_path"
+                  [alt]="article.image_alt ?? article.title"
+                  loading="lazy"
+                />
               </a>
-            </h3>
+            }
 
-            <p class="article-summary">{{ article.summary }}</p>
+            <div class="article-info">
+              <p class="article-category">{{ article.category }}</p>
 
-            <a class="article-read-more" [routerLink]="['/articles', article.slug]">
-              Citește articolul
-              <span aria-hidden="true">→</span>
-            </a>
+              <h3 class="article-title">
+                <a [routerLink]="['/articles', article.slug]">
+                  {{ article.title }}
+                </a>
+              </h3>
+
+              <p class="article-summary">{{ article.summary }}</p>
+
+              <a class="article-read-more" [routerLink]="['/articles', article.slug]">
+                Citește articolul
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        } @empty {
+          <div class="articles-empty" role="status">
+            <h3>Nu am găsit articole</h3>
+            <p>Încearcă alt cuvânt sau selectează o altă categorie.</p>
           </div>
-        </article>
-      } @empty {
-        <div class="articles-empty" role="status">
-          <h3>Nu am găsit articole</h3>
-          <p>Încearcă alt cuvânt sau selectează o altă categorie.</p>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    }
   </div>
 </section>

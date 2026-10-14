@@ -1,6 +1,12 @@
-@if (article(); as item) {
-  <h1>{{ item.title }}</h1>
-  <p class="article-content">{{ item.content }}</p>
-} @else {
-  <h1>Articolul nu a fost găsit</h1>
-}
+<section class="section">
+  <div class="container">
+    @if (state().loading) {
+      <p role="status">Se încarcă articolul...</p>
+    } @else if (state().error) {
+      <p role="alert">{{ state().error }}</p>
+    } @else if (state().article; as item) {
+      <h1>{{ item.title }}</h1>
+      <p class="article-content">{{ item.content }}</p>
+    }
+  </div>
+</section>

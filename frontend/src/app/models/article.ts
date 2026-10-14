@@ -1,10 +1,13 @@
 export interface Article {
   id: number;
-  slug: string;
   title: string;
+  slug: string;
   summary: string;
   content: string;
-  image: string;
+  image_path: string | null;
+  image_alt: string | null;
   category: string;
-  published: boolean;
+  created_at: string;
+  updated_at: string;
+  published_at: string | null;
 }
