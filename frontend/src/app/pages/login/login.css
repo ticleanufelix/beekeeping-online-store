@@ -1,0 +1,19 @@
+.login-form {
+  display: grid;
+  gap: 20px;
+  max-width: 420px;
+}
+
+.login-form > div {
+  display: grid;
+  gap: 8px;
+}
+
+.login-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}

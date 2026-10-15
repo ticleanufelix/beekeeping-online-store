@@ -1,0 +1,14 @@
+<section class="section">
+  <div class="container">
+    <h1>Administrare</h1>
+    <p>Bine ai venit în zona de administrare.</p>
+
+    @if (error()) {
+      <p role="alert">{{ error() }}</p>
+    }
+
+    <button class="btn btn-outline" type="button" [disabled]="loading()" (click)="onLogout()">
+      {{ loading() ? 'Se deconectează...' : 'Deconectare' }}
+    </button>
+  </div>
+</section>

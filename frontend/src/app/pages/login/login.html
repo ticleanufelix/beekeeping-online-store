@@ -1,0 +1,44 @@
+<section class="section">
+  <div class="container">
+    <h1>Autentificare administrator</h1>
+
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="login-form">
+      <div>
+        <label for="login-email">E-mail</label>
+        <input
+          id="login-email"
+          name="email"
+          type="email"
+          autocomplete="username"
+          [(ngModel)]="email"
+          required
+          email
+        />
+      </div>
+
+      <div>
+        <label for="login-password">Parolă</label>
+        <input
+          id="login-password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          [(ngModel)]="password"
+          required
+        />
+      </div>
+
+      @if (error()) {
+        <p role="alert">{{ error() }}</p>
+      }
+
+      @if (success()) {
+        <p role="status">{{ success() }}</p>
+      }
+
+      <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid || loading()">
+        {{ loading() ? 'Se verifică...' : 'Autentificare' }}
+      </button>
+    </form>
+  </div>
+</section>

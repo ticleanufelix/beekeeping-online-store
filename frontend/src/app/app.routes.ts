@@ -6,6 +6,9 @@ import { Articles } from './pages/articles/articles';
 import { Contact } from './pages/contact/contact';
 import { ProductDetail } from './pages/product-detail/product-detail';
 import { ArticleDetail } from './pages/article-detail/article-detail';
+import { Login } from './pages/login/login';
+import { Admin } from './pages/admin/admin';
+import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -15,4 +18,6 @@ export const routes: Routes = [
   { path: 'contact', component: Contact },
   { path: 'products/:id', component: ProductDetail },
   { path: 'articles/:slug', component: ArticleDetail },
+  { path: 'login', component: Login },
+  { path: 'admin', component: Admin, canActivate: [adminGuard] },
 ];
