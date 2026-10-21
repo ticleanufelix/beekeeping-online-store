@@ -7,6 +7,7 @@ export interface Article {
   image_path: string | null;
   image_alt: string | null;
   category: string;
+  published: boolean;
   created_at: string;
   updated_at: string;
   published_at: string | null;

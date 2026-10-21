@@ -1,17 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
+import { ArticleService } from '../../services/article';
+import { Article } from '../../models/article';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
 export class Admin {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly articleService = inject(ArticleService);
 
   loading = signal(false);
   error = signal('');

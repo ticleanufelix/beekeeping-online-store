@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Article
 {
     #[ORM\Id]
@@ -17,7 +18,7 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-   #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -38,6 +39,12 @@ class Article
     #[ORM\Column]
     private ?bool $published = false;
 
+    #[ORM\PreUpdate]
+    public function updateModificationDate(): void
+    {
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -53,12 +60,12 @@ class Article
     }
 
     public function __construct()
-{
-    $now = new \DateTimeImmutable();
+    {
+        $now = new \DateTimeImmutable();
 
-    $this->createdAt = $now;
-    $this->updatedAt = $now;
-}
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
+    }
 
     public function getTitle(): ?string
     {
@@ -152,6 +159,10 @@ class Article
     public function setPublished(bool $published): static
     {
         $this->published = $published;
+
+        if ($published && $this->publishedAt === null) {
+            $this->publishedAt = new \DateTimeImmutable();
+        }
 
         return $this;
     }

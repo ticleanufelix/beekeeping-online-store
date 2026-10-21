@@ -1,14 +1,29 @@
 <section class="section">
   <div class="container">
-    <h1>Administrare</h1>
-    <p>Bine ai venit în zona de administrare.</p>
+    <nav class="admin-nav" aria-label="Administrare">
+      <div class="admin-links">
+        <a
+          routerLink="/admin"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          Panou principal
+        </a>
+
+        <a routerLink="/admin/articles" routerLinkActive="is-active"> Articole </a>
+
+        <a routerLink="/admin/products" routerLinkActive="is-active"> Produse </a>
+      </div>
+
+      <button type="button" class="btn btn-outline" [disabled]="loading()" (click)="onLogout()">
+        {{ loading() ? 'Se deconectează...' : 'Deconectare' }}
+      </button>
+    </nav>
 
     @if (error()) {
       <p role="alert">{{ error() }}</p>
     }
 
-    <button class="btn btn-outline" type="button" [disabled]="loading()" (click)="onLogout()">
-      {{ loading() ? 'Se deconectează...' : 'Deconectare' }}
-    </button>
+    <router-outlet />
   </div>
 </section>

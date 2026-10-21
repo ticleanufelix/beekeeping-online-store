@@ -1,0 +1,61 @@
+<section class="section">
+  <div class="container">
+    <h1>Administrare articole</h1>
+
+    @if (articlesLoading()) {
+      <p role="status">Se încarcă articolele...</p>
+    } @else if (articlesError()) {
+      <p role="alert">{{ articlesError() }}</p>
+    } @else {
+      <div class="article-grid">
+        @for (article of allArticles(); track article.id) {
+          <article class="article-card">
+            @if (article.image_path) {
+              <img
+                [src]="article.image_path"
+                [alt]="article.image_alt ?? article.title"
+                loading="lazy"
+              />
+            }
+
+            <div class="article-info">
+              <p class="article-category">{{ article.category }}</p>
+
+              <h3 class="article-title">
+                {{ article.title }}
+              </h3>
+
+              <p class="article-summary">{{ article.summary }}</p>
+
+              <p>Creat la: {{ article.created_at }}</p>
+              <p>Modificat la: {{ article.updated_at }}</p>
+              @if (article.published_at) {
+                <p>Publicat la: {{ article.published_at }}</p>
+              }
+              @if (article.published) {
+                <p>Stare: Publicat</p>
+              } @else {
+                <p>Stare: Ciornă</p>
+              }
+            </div>
+            <a [routerLink]="['/admin/articles', article.id, 'edit']"> Editează </a>
+            <button
+              type="button"
+              [disabled]="articlesLoading()"
+              (click)="deleteArticle(article.id)"
+            >
+              Șterge
+            </button>
+          </article>
+        } @empty {
+          <div class="articles-empty" role="status">
+            <h3>Nu am găsit articole</h3>
+            <p>Încearcă alt cuvânt sau selectează o altă categorie.</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<button type="button" routerLink="/admin/articles/form">Creează articol nou</button>

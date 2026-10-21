@@ -34,80 +34,97 @@ class AuthController
     }
 
     #[Route('/api/me', methods: ['GET'])]
-    public function me(#[CurrentUser] ?User $user): JsonResponse{
-    if ($user === null) {
-        return new JsonResponse(
-            ['message' => 'Nu ești autentificat.'],
-            401
-        );
-    }
+    public function me(#[CurrentUser] ?User $user): JsonResponse
+    {
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => 'Nu ești autentificat.'],
+                401
+            );
+        }
 
-    return new JsonResponse([
-        'id' => $user->getId(),
-        'email' => $user->getEmail(),
-        'roles' => $user->getRoles(),
-    ]);
-}
+        return new JsonResponse([
+            'id' => $user->getId(),
+            'email' => $user->getEmail(),
+            'roles' => $user->getRoles(),
+        ]);
+    }
 
     #[Route('/api/admin/test', methods: ['GET'])]
-     public function adminTest(): JsonResponse{
+    public function adminTest(): JsonResponse
+    {
 
-    return new JsonResponse([
-        'message' => 'Ai acces la administrare.',
-    ]);
-}
+        return new JsonResponse([
+            'message' => 'Ai acces la administrare.',
+        ]);
+    }
 
-#[Route('/api/csrf/logout', methods: ['GET'])]
-public function logoutToken(
-    #[CurrentUser] ?User $user,
-    CsrfTokenManagerInterface $csrfTokenManager,
-): JsonResponse {
-    if ($user === null) {
+    #[Route('/api/csrf/logout', methods: ['GET'])]
+    public function logoutToken(
+        #[CurrentUser] ?User $user,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => 'Nu ești autentificat.'],
+                401
+            );
+        }
+
+        $token = $csrfTokenManager->getToken('admin_logout')->getValue();
+
         return new JsonResponse(
-            ['message' => 'Nu ești autentificat.'],
-            401
+            ['token' => $token],
+            200,
+            ['Cache-Control' => 'no-store']
         );
     }
 
-    $token = $csrfTokenManager->getToken('admin_logout')->getValue();
+    #[Route('/api/logout', methods: ['POST'])]
+    public function logout(
+        Request $request,
+        #[CurrentUser] ?User $user,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        TokenStorageInterface $tokenStorage,
+    ): JsonResponse {
+        if ($user === null) {
+            return new JsonResponse(
+                ['message' => 'Nu ești autentificat.'],
+                401
+            );
+        }
 
-    return new JsonResponse(
-        ['token' => $token],
-        200,
-        ['Cache-Control' => 'no-store']
-    );
-}
+        $submittedToken = $request->headers->get('X-CSRF-TOKEN', '');
 
-#[Route('/api/logout', methods: ['POST'])]
-public function logout(
-    Request $request,
-    #[CurrentUser] ?User $user,
-    CsrfTokenManagerInterface $csrfTokenManager,
-    TokenStorageInterface $tokenStorage,
-): JsonResponse {
-    if ($user === null) {
-        return new JsonResponse(
-            ['message' => 'Nu ești autentificat.'],
-            401
-        );
+        $csrfToken = new CsrfToken('admin_logout', $submittedToken);
+
+        if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+            return new JsonResponse(
+                ['message' => 'Token CSRF invalid.'],
+                403
+            );
+        }
+
+        $tokenStorage->setToken(null);
+        $request->getSession()->invalidate();
+
+        return new JsonResponse([
+            'message' => 'Deconectare reușită.',
+        ]);
     }
 
-    $submittedToken = $request->headers->get('X-CSRF-TOKEN', '');
-
-    $csrfToken = new CsrfToken('admin_logout', $submittedToken);
-
-    if (!$csrfTokenManager->isTokenValid($csrfToken)) {
+    #[Route('/api/admin/csrf/articles/create', methods: ['GET'])]
+    public function articleCreateToken(
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
         return new JsonResponse(
-            ['message' => 'Token CSRF invalid.'],
-            403
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_article_create')
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
         );
     }
-
-    $tokenStorage->setToken(null);
-    $request->getSession()->invalidate();
-
-    return new JsonResponse([
-        'message' => 'Deconectare reușită.',
-    ]);
-}
 }

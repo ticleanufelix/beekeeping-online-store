@@ -1,0 +1,103 @@
+<h1>{{ articleId !== null ? 'Editează articolul' : 'Creează articol' }}</h1>
+
+<form #articleForm="ngForm" (ngSubmit)="saveArticle()">
+  <div>
+    <label for="article-title">Titlu</label>
+    <input
+      id="article-title"
+      type="text"
+      name="title"
+      [(ngModel)]="title"
+      maxlength="200"
+      required
+    />
+  </div>
+
+  <div>
+    <label for="article-summary">Descriere scurtă</label>
+    <textarea
+      id="article-summary"
+      name="summary"
+      [(ngModel)]="summary"
+      rows="3"
+      required
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="article-content">Conținut</label>
+    <textarea
+      id="article-content"
+      name="content"
+      [(ngModel)]="content"
+      rows="10"
+      required
+    ></textarea>
+  </div>
+
+  <div>
+    <label for="article-category">Categorie</label>
+    <select id="article-category" name="category" [(ngModel)]="category" required>
+      <option value="" disabled>Alege categoria</option>
+      <option value="Miere">Miere</option>
+      <option value="Apicultură">Apicultură</option>
+      <option value="Sfaturi">Sfaturi</option>
+    </select>
+  </div>
+
+  <label for="published">Starea articolului</label>
+
+  <select id="published" name="published" [(ngModel)]="published">
+    <option [ngValue]="false">Ciornă</option>
+    <option [ngValue]="true">Publicat</option>
+  </select>
+
+  <div>
+    <label for="article-image">Imaginea articolului</label>
+    <input
+      id="article-image"
+      type="file"
+      accept="image/jpeg,image/png,image/webp"
+      (change)="onImageSelected($event)"
+    />
+  </div>
+  @if (currentImagePath) {
+    <img
+      [src]="currentImagePath"
+      [alt]="imageAlt || title"
+      style="max-width: 300px; height: auto"
+    />
+    <p>Selectează alt fișier doar dacă vrei să înlocuiești imaginea.</p>
+  }
+
+  <div>
+    <label for="article-image-alt">Descrierea imaginii</label>
+    <input
+      id="article-image-alt"
+      type="text"
+      name="imageAlt"
+      maxlength="255"
+      [(ngModel)]="imageAlt"
+    />
+  </div>
+
+  @if (error()) {
+    <p role="alert">{{ error() }}</p>
+  }
+
+  @if (success()) {
+    <p role="status">{{ success() }}</p>
+  }
+
+  <button type="submit" [disabled]="articleForm.invalid || loading()">
+    {{
+      loading()
+        ? 'Se salvează...'
+        : articleId !== null
+          ? 'Salvează modificările'
+          : published
+            ? 'Publică articolul'
+            : 'Salvează ciorna'
+    }}
+  </button>
+</form>

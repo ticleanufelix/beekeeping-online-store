@@ -7,6 +7,7 @@
     } @else if (state().article; as item) {
       <h1>{{ item.title }}</h1>
       <p class="article-content">{{ item.content }}</p>
+      <img [src]="item.image_path" [alt]="item.image_alt ?? item.title" loading="lazy" />
     }
   </div>
 </section>
