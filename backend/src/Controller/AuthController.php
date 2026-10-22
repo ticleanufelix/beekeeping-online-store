@@ -50,15 +50,6 @@ class AuthController
         ]);
     }
 
-    #[Route('/api/admin/test', methods: ['GET'])]
-    public function adminTest(): JsonResponse
-    {
-
-        return new JsonResponse([
-            'message' => 'Ai acces la administrare.',
-        ]);
-    }
-
     #[Route('/api/csrf/logout', methods: ['GET'])]
     public function logoutToken(
         #[CurrentUser] ?User $user,
