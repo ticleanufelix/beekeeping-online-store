@@ -18,40 +18,37 @@
 </section>
 
 <section class="section featured-products">
-  <div class="container">
-    <div class="featured-header">
-      <div>
-        <h2 class="section-heading">Produse recomandate</h2>
-        <p class="section-intro">Descoperă o selecție de produse pentru tine și stupina ta.</p>
-      </div>
+  <div class="product-grid">
+    @for (product of products(); track product.id) {
+      <article class="product-card">
+        @if (product.image_path) {
+          <img
+            class="product-image"
+            [src]="product.image_path"
+            [alt]="product.image_alt || product.name"
+            loading="lazy"
+          />
+        } @else {
+          <div class="product-placeholder" aria-hidden="true">🍯</div>
+        }
 
-      <a class="btn btn-outline" routerLink="/products">
-        Toate produsele <span aria-hidden="true">→</span>
-      </a>
-    </div>
+        <div class="product-info">
+          <p>{{ product.category.name }}</p>
+          <h3>{{ product.name }}</h3>
 
-    <div class="product-grid">
-      @for (product of featuredProducts; track product.id) {
-        <article class="product-card">
-          <div class="product-placeholder" aria-hidden="true">
-            @if (product.category === 'miere') {
-              🍯
-            } @else {
-              🐝
-            }
-          </div>
+          @if (product.variants.length > 0) {
+            <p class="product-price">
+              {{ product.variants.length > 1 ? 'De la ' : '' }}
+              {{ getMinPrice(product) / 100 | number: '1.2-2' }} lei
+            </p>
+          }
 
-          <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <p class="product-price">{{ product.price | number: '1.2-2' }} lei</p>
-
-            <a class="btn btn-primary product-button" [routerLink]="['/products', product.id]">
-              Vezi produsul
-            </a>
-          </div>
-        </article>
-      }
-    </div>
+          <a class="btn btn-primary product-button" [routerLink]="['/products', product.slug]">
+            Vezi produsul
+          </a>
+        </div>
+      </article>
+    }
   </div>
 </section>
 

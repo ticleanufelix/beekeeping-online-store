@@ -20,10 +20,10 @@ export const routes: Routes = [
   { path: 'about', component: About },
   { path: 'articles', component: Articles },
   { path: 'contact', component: Contact },
-  { path: 'products/:id', component: ProductDetail },
+  { path: 'products/:slug', component: ProductDetail },
   { path: 'articles/:slug', component: ArticleDetail },
   { path: 'login', component: Login },
-  { path: 'admin', component: Admin, canActivate: [adminGuard] },
+
   {
     path: 'admin',
     component: Admin,

@@ -1,7 +1,48 @@
-@if (product(); as item) {
-  <h1>{{ item.name }}</h1>
-  <p>Preț: {{ item.price }} €</p>
-  <p>{{ item.description }}</p>
-} @else {
-  <h1>Produsul nu a fost găsit</h1>
+@if (state(); as result) {
+  @switch (result.status) {
+    @case ('loading') {
+      <p>Se încarcă produsul...</p>
+    }
+
+    @case ('error') {
+      <p role="alert">{{ result.message }}</p>
+    }
+
+    @case ('success') {
+      <h1>{{ result.product.name }}</h1>
+      <p>{{ result.product.category.name }}</p>
+
+      @if (result.product.image_path) {
+        <img
+          class="product-image"
+          [src]="result.product.image_path"
+          [alt]="result.product.image_alt || result.product.name"
+        />
+      }
+
+      <p class="product-description">
+        {{ result.product.description }}
+      </p>
+
+      <h2>Variante</h2>
+
+      @for (variant of result.product.variants; track variant.id) {
+        <div>
+          <h3>{{ variant.name }}</h3>
+
+          <p>{{ variant.price_in_bani / 100 | number: '1.2-2' }} lei</p>
+
+          @if (!variant.available) {
+            <p>Indisponibil</p>
+          } @else if (variant.stock_quantity === null) {
+            <p>Disponibil</p>
+          } @else if (variant.stock_quantity === 0) {
+            <p>Disponibil la comandă — livrarea durează mai mult.</p>
+          } @else {
+            <p>În stoc</p>
+          }
+        </div>
+      }
+    }
+  }
 }

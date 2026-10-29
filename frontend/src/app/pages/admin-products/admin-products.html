@@ -1,2 +1,69 @@
 <h1>Administrare produse</h1>
-<p>Vom adăuga aici gestionarea produselor.</p>
+
+@if (productsLoading()) {
+  <p role="status">Se încarcă produsele...</p>
+} @else if (productsError()) {
+  <p role="alert">{{ productsError() }}</p>
+} @else {
+  @for (product of allProducts(); track product.id) {
+    <article>
+      @if (product.image_path) {
+        <img
+          class="product-image"
+          [src]="product.image_path"
+          [alt]="product.image_alt || product.name"
+          loading="lazy"
+        />
+      }
+
+      <div>
+        <h2>{{ product.name }}</h2>
+        <p>Categorie: {{ product.category.name }}</p>
+        <p>Stare: {{ product.active ? 'Activ' : 'Inactiv' }}</p>
+        <p>{{ product.summary }}</p>
+
+        <p>
+          Creat la:
+          {{ product.created_at | date: 'dd.MM.yyyy HH:mm' }}
+        </p>
+
+        <p>
+          Modificat la:
+          {{ product.updated_at | date: 'dd.MM.yyyy HH:mm' }}
+        </p>
+
+        <h3>Variante</h3>
+
+        @for (variant of product.variants; track variant.id) {
+          <div>
+            <h4>{{ variant.name }}</h4>
+            <p>SKU: {{ variant.sku }}</p>
+
+            <p>
+              Preț:
+              {{ variant.price_in_bani / 100 | number: '1.2-2' }} lei
+            </p>
+
+            <p>
+              Stoc:
+              {{
+                variant.stock_quantity === null ? 'Cantitate neurmărită' : variant.stock_quantity
+              }}
+            </p>
+
+            <p>
+              Comandă permisă:
+              {{ variant.available ? 'Da' : 'Nu' }}
+            </p>
+
+            @if (variant.available && variant.stock_quantity === 0) {
+              <p>Disponibil la comandă, cu livrare mai lentă.</p>
+            }
+          </div>
+        }
+      </div>
+    </article>
+  } @empty {
+    <p>Nu există produse.</p>
+  }
+}

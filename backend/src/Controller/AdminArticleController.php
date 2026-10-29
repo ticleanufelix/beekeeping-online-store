@@ -214,21 +214,7 @@ class AdminArticleController
         ], 200);
     }
 
-    #[Route('/api/admin/csrf/articles/{id}/edit', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function articleEditToken(
-        int $id,
-        CsrfTokenManagerInterface $csrfTokenManager,
-    ): JsonResponse {
-        return new JsonResponse(
-            [
-                'token' => $csrfTokenManager
-                    ->getToken('admin_article_edit_' . $id)
-                    ->getValue(),
-            ],
-            200,
-            ['Cache-Control' => 'no-store']
-        );
-    }
+
 
 
     #[Route('/api/admin/articles/{id}', methods: ['DELETE'], requirements: ['id' => '\d+'])]
@@ -283,21 +269,7 @@ class AdminArticleController
         return new JsonResponse(null, 204);
     }
 
-    #[Route('/api/admin/csrf/articles/{id}/delete', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function articleDeleteToken(
-        int $id,
-        CsrfTokenManagerInterface $csrfTokenManager,
-    ): JsonResponse {
-        return new JsonResponse(
-            [
-                'token' => $csrfTokenManager
-                    ->getToken('admin_article_delete_' . $id)
-                    ->getValue(),
-            ],
-            200,
-            ['Cache-Control' => 'no-store']
-        );
-    }
+
 
     #[Route('/api/admin/articles/{id}/image', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function uploadArticleImage(

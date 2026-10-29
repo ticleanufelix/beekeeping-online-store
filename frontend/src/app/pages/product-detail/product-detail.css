@@ -1,0 +1,10 @@
+.product-image {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+}
+
+.product-description {
+  white-space: pre-line;
+}

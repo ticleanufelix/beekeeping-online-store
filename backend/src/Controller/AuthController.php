@@ -104,6 +104,26 @@ class AuthController
         ]);
     }
 
+
+    //Articles
+
+    #[Route('/api/admin/csrf/articles/{id}/edit', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function articleEditToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_article_edit_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+
     #[Route('/api/admin/csrf/articles/create', methods: ['GET'])]
     public function articleCreateToken(
         CsrfTokenManagerInterface $csrfTokenManager,
@@ -112,6 +132,104 @@ class AuthController
             [
                 'token' => $csrfTokenManager
                     ->getToken('admin_article_create')
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+    #[Route('/api/admin/csrf/articles/{id}/delete', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function articleDeleteToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_article_delete_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+    #[Route('/api/admin/csrf/articles/{id}/image', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function articleImageToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_article_image_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+
+    //products
+
+    #[Route('/api/admin/csrf/products/{id}/edit', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function productEditToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_product_edit_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+    #[Route('/api/admin/csrf/products/create', methods: ['GET'])]
+    public function productCreateToken(
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_product_create')
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+    #[Route('/api/admin/csrf/products/{id}/image', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function productImageToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_product_image_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
+
+    #[Route('/api/admin/csrf/products/{id}/delete', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function productDeleteToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_product_delete_' . $id)
                     ->getValue(),
             ],
             200,

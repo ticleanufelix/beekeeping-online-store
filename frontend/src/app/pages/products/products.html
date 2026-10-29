@@ -1,15 +1,20 @@
 <h1>Produse</h1>
 
-@for (product of products; track product.id) {
-  <article>
-    <h2>{{ product.name }}</h2>
-    <p>{{ product.price }} €</p>
-    <a [routerLink]="['/products', product.id]">Vezi detalii</a>
-  </article>
-}
-<button (click)="selectCategory('')">Toate</button>
-<button (click)="selectCategory('Miere')">Miere</button>
-<button (click)="selectCategory('Echipamente')">Echipamente</button>
+<div class="category-filters">
+  <button type="button" (click)="selectCategory('')" [attr.aria-pressed]="selectedCategory === ''">
+    Toate
+  </button>
+
+  @for (category of categories(); track category.id) {
+    <button
+      type="button"
+      (click)="selectCategory(category.slug)"
+      [attr.aria-pressed]="selectedCategory === category.slug"
+    >
+      {{ category.name }}
+    </button>
+  }
+</div>
 
 <label for="product-search">Caută produse</label>
 <input
@@ -18,3 +23,41 @@
   (input)="onSearch($event)"
   placeholder="De exemplu: salcâm"
 />
+
+@if (loading()) {
+  <p>Se încarcă produsele...</p>
+} @else if (error()) {
+  <p role="alert">{{ error() }}</p>
+} @else {
+  <div class="product-grid">
+    @for (product of products(); track product.id) {
+      <article class="product-card">
+        @if (product.image_path) {
+          <img
+            class="product-image"
+            [src]="product.image_path"
+            [alt]="product.image_alt || product.name"
+            loading="lazy"
+          />
+        }
+
+        <div class="product-info">
+          <p>{{ product.category.name }}</p>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.summary }}</p>
+
+          @if (product.variants.length > 0) {
+            <p class="product-price">
+              {{ product.variants.length > 1 ? 'De la ' : '' }}
+              {{ getMinPrice(product) / 100 | number: '1.2-2' }} lei
+            </p>
+          }
+
+          <a class="btn btn-primary" [routerLink]="['/products', product.slug]"> Vezi detalii </a>
+        </div>
+      </article>
+    } @empty {
+      <p>Nu există produse pentru filtrele selectate.</p>
+    }
+  </div>
+}
