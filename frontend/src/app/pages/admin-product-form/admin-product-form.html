@@ -1,0 +1,214 @@
+<h1>
+  {{ productId !== null ? 'Editează produsul' : 'Adaugă produs' }}
+</h1>
+
+@if (error()) {
+  <p role="alert">{{ error() }}</p>
+}
+
+@if (success()) {
+  <p role="status">{{ success() }}</p>
+}
+
+@if (loading()) {
+  <p role="status">Se procesează...</p>
+}
+
+<form #productForm="ngForm" (ngSubmit)="saveProduct()">
+  <fieldset [disabled]="loading()">
+    <legend>Datele produsului</legend>
+
+    <div>
+      <label for="product-name">Nume</label>
+      <input
+        id="product-name"
+        type="text"
+        name="name"
+        [(ngModel)]="name"
+        maxlength="200"
+        required
+      />
+    </div>
+
+    <div>
+      <label for="product-summary">Descriere scurtă</label>
+      <textarea
+        id="product-summary"
+        name="summary"
+        [(ngModel)]="summary"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="product-description">Descriere completă</label>
+      <textarea
+        id="product-description"
+        name="description"
+        [(ngModel)]="description"
+        rows="8"
+        required
+      ></textarea>
+    </div>
+
+    <div>
+      <label for="product-category">Categorie</label>
+      <select
+        id="product-category"
+        name="categoryId"
+        [(ngModel)]="categoryId"
+        [disabled]="categoriesLoading()"
+        required
+      >
+        <option [ngValue]="null" disabled>Alege categoria</option>
+
+        @for (category of categories(); track category.id) {
+          <option [ngValue]="category.id">
+            {{ category.name }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div>
+      <label for="product-active">Starea produsului</label>
+      <select id="product-active" name="active" [(ngModel)]="active">
+        <option [ngValue]="false">Inactiv</option>
+        <option [ngValue]="true">Activ</option>
+      </select>
+    </div>
+
+    <p>Produsele inactive nu apar în magazinul public.</p>
+  </fieldset>
+
+  <fieldset [disabled]="loading()">
+    <legend>Imaginea produsului</legend>
+
+    @if (currentImagePath) {
+      <img
+        class="product-image-preview"
+        [src]="currentImagePath"
+        [alt]="imageAlt || name"
+        style="display: block; max-width: 300px; width: 100%; height: auto"
+      />
+      <p>Imaginea existentă se păstrează dacă nu selectezi alta.</p>
+    }
+
+    <div>
+      <label for="product-image">Alege imaginea</label>
+      <input
+        id="product-image"
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        (change)="onImageSelected($event)"
+      />
+      <p>JPG, PNG sau WebP, maximum 5 MB.</p>
+    </div>
+
+    <div>
+      <label for="product-image-alt">Descrierea imaginii</label>
+      <input
+        id="product-image-alt"
+        type="text"
+        name="imageAlt"
+        [(ngModel)]="imageAlt"
+        maxlength="255"
+      />
+    </div>
+  </fieldset>
+
+  <fieldset [disabled]="loading()">
+    <legend>Variante, prețuri și stoc</legend>
+
+    <p>
+      Pentru miere adaugă variantele „300 g” și „800 g”. Pentru un produs fără opțiuni, folosește
+      „Standard”.
+    </p>
+
+    @for (variant of variants; track variant; let i = $index) {
+      <fieldset>
+        <legend>Varianta {{ i + 1 }}</legend>
+
+        <div>
+          <label [for]="'variant-name-' + i">Numele variantei</label>
+          <input
+            [id]="'variant-name-' + i"
+            type="text"
+            [name]="'variantName-' + i"
+            [(ngModel)]="variant.name"
+            maxlength="100"
+            placeholder="De exemplu: 300 g"
+            required
+          />
+        </div>
+
+        <div>
+          <label [for]="'variant-price-' + i"> Preț cu TVA, în lei </label>
+          <input
+            [id]="'variant-price-' + i"
+            type="number"
+            [name]="'variantPrice-' + i"
+            [ngModel]="variant.price_in_bani / 100"
+            (ngModelChange)="variant.price_in_bani = $event * 100"
+            min="0.01"
+            step="0.01"
+            required
+          />
+        </div>
+
+        <div>
+          <label [for]="'variant-stock-' + i"> Cantitate în stoc </label>
+          <input
+            [id]="'variant-stock-' + i"
+            type="number"
+            [name]="'variantStock-' + i"
+            [(ngModel)]="variant.stock_quantity"
+            min="0"
+            step="1"
+            placeholder="Gol = cantitate neurmărită"
+          />
+        </div>
+
+        <p>
+          Lasă stocul gol pentru cantitate neurmărită. La stoc 0, comanda este permisă dacă varianta
+          este disponibilă, cu livrare mai lentă.
+        </p>
+
+        <div>
+          <label [for]="'variant-available-' + i">
+            <input
+              [id]="'variant-available-' + i"
+              type="checkbox"
+              [name]="'variantAvailable-' + i"
+              [(ngModel)]="variant.available"
+            />
+            Disponibilă pentru comandă
+          </label>
+        </div>
+      </fieldset>
+    }
+
+    <button type="button" (click)="addVariant()">Adaugă variantă</button>
+  </fieldset>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="
+      productForm.invalid ||
+      loading() ||
+      categoriesLoading() ||
+      categoryId === null ||
+      variants.length === 0
+    "
+  >
+    {{
+      loading()
+        ? 'Se salvează...'
+        : productId !== null
+          ? 'Salvează modificările'
+          : 'Creează produsul'
+    }}
+  </button>
+</form>

@@ -13,6 +13,7 @@ import { AdminArticles } from './pages/admin-articles/admin-articles';
 import { AdminArticleForm } from './pages/admin-article-form/admin-article-form';
 import { AdminHome } from './pages/admin-home/admin-home';
 import { AdminProducts } from './pages/admin-products/admin-products';
+import { AdminProductForm } from './pages/admin-product-form/admin-product-form';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -50,6 +51,14 @@ export const routes: Routes = [
       {
         path: 'products',
         component: AdminProducts,
+      },
+      {
+        path: 'products/form',
+        component: AdminProductForm,
+      },
+      {
+        path: 'products/:id/edit',
+        component: AdminProductForm,
       },
     ],
   },

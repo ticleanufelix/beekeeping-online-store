@@ -61,9 +61,15 @@
             }
           </div>
         }
+        <a [routerLink]="['/admin/products', product.id, 'edit']"> Editează </a>
+        <button type="button" [disabled]="productsLoading()" (click)="deleteProduct(product.id)">
+          Șterge
+        </button>
       </div>
     </article>
   } @empty {
     <p>Nu există produse.</p>
   }
 }
+
+<a routerLink="/admin/products/form"> Adaugă produs </a>
