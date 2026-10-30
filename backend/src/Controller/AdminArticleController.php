@@ -395,21 +395,6 @@ class AdminArticleController
         ]);
     }
 
-    #[Route('/api/admin/csrf/articles/{id}/image', methods: ['GET'], requirements: ['id' => '\d+'])]
-    public function articleImageToken(
-        int $id,
-        CsrfTokenManagerInterface $csrfTokenManager,
-    ): JsonResponse {
-        return new JsonResponse(
-            [
-                'token' => $csrfTokenManager
-                    ->getToken('admin_article_image_' . $id)
-                    ->getValue(),
-            ],
-            200,
-            ['Cache-Control' => 'no-store']
-        );
-    }
 
 
 

@@ -9,3 +9,4 @@ frontend/.env
 backend/.env.local
 *.log
 .codex/
+/backend/public/uploads/
