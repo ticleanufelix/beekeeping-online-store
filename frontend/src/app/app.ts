@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { CartService } from './services/cart';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './app.css',
 })
 export class App {
+  readonly cart = inject(CartService);
   protected readonly menuOpen = signal(false);
 
   protected toggleMenu(): void {

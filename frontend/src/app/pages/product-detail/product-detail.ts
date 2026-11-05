@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../../services/product';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import { CartService } from '../../services/cart';
+import type { Product, ProductVariant } from '../../models/product';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +16,7 @@ import { catchError, map, of, startWith, switchMap } from 'rxjs';
 export class ProductDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly productService = inject(ProductService);
+  private readonly cartService = inject(CartService);
 
   readonly state = toSignal(
     this.route.paramMap.pipe(
@@ -47,4 +50,18 @@ export class ProductDetail {
     ),
     { initialValue: { status: 'loading' as const } },
   );
+
+  addToCart(product: Product, variant: ProductVariant): void {
+    if (!variant.available) {
+      return;
+    }
+
+    this.cartService.add({
+      variantId: variant.id,
+      productName: product.name,
+      variantName: variant.name,
+      priceInBani: variant.price_in_bani,
+      quantity: 1,
+    });
+  }
 }

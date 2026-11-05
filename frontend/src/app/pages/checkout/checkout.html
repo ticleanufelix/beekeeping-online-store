@@ -1,0 +1,63 @@
+<h1>Finalizare comandă</h1>
+
+@if (confirmedOrder(); as order) {
+  <h1>Comanda #{{ order.id }} a fost înregistrată</h1>
+  <p>Total confirmat: {{ order.totalInBani / 100 | number: '1.2-2' }} lei</p>
+} @else {
+  <!-- Păstrează aici rezumatul coșului și formularul existent. -->
+
+  @if (orderError()) {
+    <p role="alert">{{ orderError() }}</p>
+  }
+}
+
+@for (item of cart.items(); track item.variantId) {
+  <p>{{ item.productName }} — {{ item.variantName }} × {{ item.quantity }}</p>
+  <p>Preț unitar: {{ item.priceInBani / 100 | number: '1.2-2' }} lei</p>
+  <p>Subtotal: {{ (item.priceInBani * item.quantity) / 100 | number: '1.2-2' }} lei</p>
+} @empty {
+  <p>Coșul tău este gol.</p>
+}
+@if (cart.items().length > 0) {
+  <p>
+    <strong>Total produse: {{ cart.totalInBani() / 100 | number: '1.2-2' }} lei</strong>
+  </p>
+}
+
+<form #orderForm="ngForm" (ngSubmit)="orderForm.valid && addOrder()">
+  <label for="customer-name">Nume</label>
+  <input id="customer-name" name="customerName" [(ngModel)]="customerName" required />
+
+  <label for="customer-email">Email</label>
+  <input
+    id="customer-email"
+    name="customerEmail"
+    type="email"
+    [(ngModel)]="customerEmail"
+    required
+    email
+  />
+
+  <label for="customer-phone">Telefon</label>
+  <input id="customer-phone" name="customerPhone" type="tel" [(ngModel)]="customerPhone" required />
+
+  <label for="delivery-method">Cum primești comanda?</label>
+  <select id="delivery-method" name="deliveryMethod" [(ngModel)]="deliveryMethod">
+    <option value="pickup">Ridicare din magazin</option>
+    <option value="delivery">Livrare</option>
+  </select>
+
+  @if (deliveryMethod === 'delivery') {
+    <label for="delivery-address">Adresa de livrare</label>
+    <textarea
+      id="delivery-address"
+      name="deliveryAddress"
+      [(ngModel)]="deliveryAddress"
+      required
+    ></textarea>
+  }
+
+  <button type="submit" [disabled]="orderForm.invalid || cart.items().length === 0">
+    Trimite comanda
+  </button>
+</form>

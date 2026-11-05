@@ -1,0 +1,42 @@
+<h1>Coșul de cumpărături</h1>
+
+@for (item of cart.items(); track item.variantId) {
+  <article>
+    <h2>{{ item.productName }} — {{ item.variantName }}</h2>
+    <p>{{ item.quantity }} × {{ item.priceInBani / 100 | number: '1.2-2' }} lei</p>
+    <p>Subtotal: {{ (item.priceInBani * item.quantity) / 100 | number: '1.2-2' }} lei</p>
+  </article>
+
+  <button
+    type="button"
+    [disabled]="item.quantity <= 1"
+    [attr.aria-label]="'Scade cantitatea pentru ' + item.productName + ', ' + item.variantName"
+    (click)="cart.setQuantity(item.variantId, item.quantity - 1)"
+  >
+    −
+  </button>
+
+  <span>{{ item.quantity }}</span>
+
+  <button
+    type="button"
+    [attr.aria-label]="'Crește cantitatea pentru ' + item.productName + ', ' + item.variantName"
+    (click)="cart.setQuantity(item.variantId, item.quantity + 1)"
+  >
+    +
+  </button>
+
+  <button type="button" (click)="cart.remove(item.variantId)">Elimină</button>
+} @empty {
+  <p>Coșul tău este gol.</p>
+}
+
+@if (cart.items().length > 0) {
+  <p>
+    <strong>Total produse: {{ cart.totalInBani() / 100 | number: '1.2-2' }} lei</strong>
+  </p>
+}
+
+<a routerLink="/checkout">Finalizeaza comanda</a>
+
+<a routerLink="/products">Continuă cumpărăturile</a>

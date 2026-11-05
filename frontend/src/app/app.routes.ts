@@ -14,6 +14,8 @@ import { AdminArticleForm } from './pages/admin-article-form/admin-article-form'
 import { AdminHome } from './pages/admin-home/admin-home';
 import { AdminProducts } from './pages/admin-products/admin-products';
 import { AdminProductForm } from './pages/admin-product-form/admin-product-form';
+import { Cart } from './pages/cart/cart';
+import { Checkout } from './pages/checkout/checkout';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -24,6 +26,8 @@ export const routes: Routes = [
   { path: 'products/:slug', component: ProductDetail },
   { path: 'articles/:slug', component: ArticleDetail },
   { path: 'login', component: Login },
+  { path: 'cart', component: Cart },
+  { path: 'checkout', component: Checkout },
 
   {
     path: 'admin',
