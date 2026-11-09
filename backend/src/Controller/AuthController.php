@@ -236,4 +236,20 @@ class AuthController
             ['Cache-Control' => 'no-store']
         );
     }
+
+    #[Route('/api/admin/csrf/orders/{id}/edit', methods: ['GET'], requirements: ['id' => '\d+'])]
+    public function orderEditToken(
+        int $id,
+        CsrfTokenManagerInterface $csrfTokenManager,
+    ): JsonResponse {
+        return new JsonResponse(
+            [
+                'token' => $csrfTokenManager
+                    ->getToken('admin_orders_edit_' . $id)
+                    ->getValue(),
+            ],
+            200,
+            ['Cache-Control' => 'no-store']
+        );
+    }
 }

@@ -16,6 +16,8 @@ import { AdminProducts } from './pages/admin-products/admin-products';
 import { AdminProductForm } from './pages/admin-product-form/admin-product-form';
 import { Cart } from './pages/cart/cart';
 import { Checkout } from './pages/checkout/checkout';
+import { AdminOrders } from './pages/admin-orders/admin-orders';
+import { AdminOrderDetails } from './pages/admin-order-details/admin-order-details';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -64,6 +66,9 @@ export const routes: Routes = [
         path: 'products/:id/edit',
         component: AdminProductForm,
       },
+      { path: 'orders', component: AdminOrders },
+
+      { path: 'orders/:id', component: AdminOrderDetails },
     ],
   },
 ];

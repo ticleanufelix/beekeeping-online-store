@@ -1,0 +1,106 @@
+<section class="section">
+  <div class="container">
+    @if (state().loading) {
+      <p role="status">Se încarcă comanda...</p>
+    } @else if (state().error) {
+      <p role="alert">{{ state().error }}</p>
+    } @else if (state().order; as order) {
+      <h1>Comanda #{{ order.id }}</h1>
+
+      <p>Data: {{ order.created_at | date: 'dd.MM.yyyy HH:mm' }}</p>
+      <p>
+        <strong>Stare:</strong>
+        @switch (order.status) {
+          @case ('new') {
+            Nouă
+          }
+          @case ('confirmed') {
+            {{
+              order.delivery_method === 'delivery'
+                ? 'In curs de livrare'
+                : 'In astepare pentru ridicare'
+            }}
+          }
+          @case ('completed') {
+            {{ order.delivery_method === 'delivery' ? 'Livrată' : 'Ridicată' }}
+          }
+          @case ('cancelled') {
+            Anulată
+          }
+          @default {
+            {{ order.status }}
+          }
+        }
+      </p>
+      @if (order.status === 'new') {
+        <button
+          type="button"
+          [disabled]="savingStatus()"
+          (click)="changeStatus(order.id, 'confirmed')"
+        >
+          Preia comanda
+        </button>
+      }
+
+      @if (order.status === 'confirmed') {
+        <button
+          type="button"
+          [disabled]="savingStatus()"
+          (click)="changeStatus(order.id, 'completed')"
+        >
+          {{
+            order.delivery_method === 'delivery' ? 'Marchează ca livrată' : 'Marchează ca ridicată'
+          }}
+        </button>
+      }
+
+      @if (order.status === 'new' || order.status === 'confirmed') {
+        <button
+          type="button"
+          [disabled]="savingStatus()"
+          (click)="changeStatus(order.id, 'cancelled')"
+        >
+          Anulează comanda
+        </button>
+      }
+
+      @if (statusError()) {
+        <p role="alert">{{ statusError() }}</p>
+      }
+
+      <section>
+        <h2>Datele clientului</h2>
+        <p><strong>Nume:</strong> {{ order.customer_name }}</p>
+        <p><strong>Email:</strong> {{ order.customer_email }}</p>
+        <p><strong>Telefon:</strong> {{ order.customer_phone }}</p>
+
+        @if (order.delivery_method === 'delivery') {
+          <p><strong>Primire:</strong> Livrare</p>
+          <p><strong>Adresă:</strong> {{ order.delivery_address }}</p>
+        } @else {
+          <p><strong>Primire:</strong> Ridicare din magazin</p>
+        }
+      </section>
+
+      <section>
+        <h2>Produse comandate</h2>
+
+        @for (line of order.items; track $index) {
+          <article>
+            <h3>{{ line.product_name }} — {{ line.variant_name }}</h3>
+            <p>SKU: {{ line.sku }}</p>
+            <p>Cantitate: {{ line.quantity }}</p>
+            <p>Preț unitar: {{ line.unit_price_in_bani / 100 | number: '1.2-2' }} lei</p>
+            <p>Subtotal: {{ line.subtotal_in_bani / 100 | number: '1.2-2' }} lei</p>
+          </article>
+        } @empty {
+          <p>Comanda nu conține produse.</p>
+        }
+      </section>
+
+      <p>
+        <strong>Total comandă: {{ order.total_in_bani / 100 | number: '1.2-2' }} lei</strong>
+      </p>
+    }
+  </div>
+</section>

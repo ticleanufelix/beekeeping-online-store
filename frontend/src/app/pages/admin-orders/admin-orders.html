@@ -1,0 +1,56 @@
+<h1>Comenzi</h1>
+<div role="group" aria-label="Filtrează comenzile după stare">
+  @for (tab of tabs; track tab.status) {
+    <button
+      type="button"
+      [class.is-active]="selectedStatus() === tab.status"
+      [attr.aria-pressed]="selectedStatus() === tab.status"
+      (click)="selectedStatus.set(tab.status)"
+    >
+      {{ tab.label }}
+    </button>
+  }
+</div>
+
+@if (ordersLoading()) {
+  <p role="status">Se încarcă comenzile...</p>
+} @else if (ordersError()) {
+  <p role="alert">{{ ordersError() }}</p>
+  <button type="button" (click)="getAllOrders()">Încearcă din nou</button>
+} @else {
+  @for (order of filteredOrders(); track order.id) {
+    <article>
+      <h2>Comanda #{{ order.id }}</h2>
+      <p>Client: {{ order.customer_name }}</p>
+      <p>Data: {{ order.created_at | date: 'dd.MM.yyyy HH:mm' }}</p>
+      <p>Total: {{ order.total_in_bani / 100 | number: '1.2-2' }} lei</p>
+      <p>
+        <strong>Stare:</strong>
+        @switch (order.status) {
+          @case ('new') {
+            Nouă
+          }
+          @case ('confirmed') {
+            {{
+              order.delivery_method === 'delivery'
+                ? 'In curs de livrare'
+                : 'In astepare pentru ridicare'
+            }}
+          }
+          @case ('completed') {
+            {{ order.delivery_method === 'delivery' ? 'Livrată' : 'Ridicată' }}
+          }
+          @case ('cancelled') {
+            Anulată
+          }
+          @default {
+            {{ order.status }}
+          }
+        }
+      </p>
+      <a [routerLink]="['/admin/orders', order.id]">Vezi detalii comanda</a>
+    </article>
+  } @empty {
+    <p>Nu există încă nicio comandă.</p>
+  }
+}
